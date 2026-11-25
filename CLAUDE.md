@@ -176,7 +176,7 @@ CREATE POLICY chunks_role_access ON chunks
 - **One roadmap day = one goal = at least one commit**, pushed the same day.
 - Start a session with: *"Read CLAUDE.md and docs/ROADMAP.md. Today is Day N. Do only Day N."*
 - Commit messages use **Conventional Commits**: `type(scope): summary`, e.g. `feat(auth): add JWT login with seeded users`. Types: `feat`, `fix`, `test`, `refactor`, `docs`, `build`, `ci`, `chore`. Add `Day N` in the commit body.
-- Branch per week (`week-1-setup`), merged to `main` by pull request when CI is green at the end of the week.
+- Branch per day, named after its task: `<type>/day-NN-<short-task>` (e.g. `build/day-02-backend-tooling`), using the same type as the day's commit; merged to `main` by pull request when CI is green.
 - End of day: all checks green → commit → push → add one line to `docs/progress.md`: date, Day N, what was done, what is left.
 - If a day's goal is not finished, commit what works (tests green) with `wip` in the body, and finish it the next day before starting the next goal. Never commit failing tests to `main`.
 - The human reviews every diff before committing, especially SQL, RLS, auth, PII and cookie code.

@@ -3,11 +3,13 @@
 > Save as `docs/ROADMAP.md`. One day = one goal = at least one commit. Plan for about 2 hours a day, 5 days a week. Start each Claude Code session with:
 > *"Read CLAUDE.md and docs/ROADMAP.md. Today is Day N. Do only Day N. Plan first, then tests, then code, then report."*
 >
+> Each day gets its own branch named after its task: `<type>/day-NN-<short-task>`, e.g. `build/day-02-backend-tooling`, using the same type as the day's commit. Merge it to `main` by pull request when CI is green.
+>
 > Tick each day when its commit is pushed and CI is green. If a day overruns, finish it before starting the next one; the dates move, the order does not.
 
 ---
 
-## Week 1: Setup and quality foundations (branch `week-1-setup`)
+## Week 1: Setup and quality foundations
 
 - [ ] **Day 1: Repository skeleton**
   - Folders from CLAUDE.md, `.gitignore`, `.env.example`, `README.md` stub (problem statement in 3 lines), `docs/` files with headings only, `docs/progress.md`.
@@ -34,7 +36,7 @@
   - Done when: `docker compose up` works and the home page says "API: ok".
   - Commit: `feat(infra): add docker compose stack and health check`
 
-## Week 2: Database, RLS and auth (branch `week-2-db-auth`)
+## Week 2: Database, RLS and auth
 
 - [ ] **Day 6: Models and first migration**
   - SQLAlchemy models and Alembic migration for `users`, `documents`, `chunks`, `pii_vault`, `audit_log` (pgvector enabled).
@@ -61,7 +63,7 @@
   - Done when: an integration test calls the API as `hr` and as `finance` and sees different rows.
   - Commit: `feat(auth): set database role context per request`
 
-## Week 3: Policy packs, ingestion and privacy (branch `week-3-ingest-privacy`)
+## Week 3: Policy packs, ingestion and privacy
 
 - [ ] **Day 11: Policy packs**
   - Pydantic schema and loader for policy pack YAML; `policy_packs/food_retail.yaml` for Brindley Bakeries.
@@ -88,7 +90,7 @@
   - Done when: a test confirms no seeded PII value appears in `chunks`.
   - Commit: `feat(data): add fictional demo dataset and ingest command`
 
-## Week 4: Labels and question answering (branch `week-4-labels-rag`)
+## Week 4: Labels and question answering
 
 - [ ] **Day 16: Label suggestions**
   - Suggest `doc_type`, `sensitivity` and `allowed_roles` from policy pack rules (keywords, document types); new documents start as `suggested`.
@@ -115,7 +117,7 @@
   - Done when: integration tests check citations and the audit record.
   - Commit: `feat(rag): add ask endpoint with citations and audit log`
 
-## Week 5: AI workspace and memo drafting (branch `week-5-workspace`)
+## Week 5: AI workspace and memo drafting
 
 - [ ] **Day 21: Task rules in the policy pack**
   - Extend the policy pack schema: which task types each role may use (`ask`, `draft_email`, `summarise`, `rewrite`, `proposal`, `memo`), blocked topics, data types that must never be sent to the model, tasks that always produce a "for review" draft.
@@ -142,7 +144,7 @@
   - Done when: tests confirm exports contain only what the user may see and no unmasked data the user may not see.
   - Commit: `feat(export): export drafts as docx, markdown and email links`
 
-## Week 6: Frontend (branch `week-6-frontend`)
+## Week 6: Frontend
 
 - [ ] **Day 26: Login and session**
   - Set up shadcn/ui (`npx shadcn@latest init`), map its variables to our tokens, add `button input label card`; build `AppShell`.
@@ -170,7 +172,7 @@
   - Done when: Playwright runs in CI and passes.
   - Commit: `test(web): add end-to-end tests for key flows`
 
-## Week 7: Security, evaluation and release (branch `week-7-security-eval`)
+## Week 7: Security, evaluation and release
 
 - [ ] **Day 31: Prompt-injection tests**
   - 15 cases across chat and workspace tasks: direct injection, role-play, "ignore previous instructions", requests for other roles' data, attempts to unlock blocked tasks.
