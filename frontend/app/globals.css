@@ -1,0 +1,55 @@
+/* frontend/app/globals.css
+   SafeDocs design tokens (Tailwind CSS v4). Matches the "SafeDocs app screens" design.
+   Use the token classes (bg-brand, text-ink-muted, border-line ...) — never raw hex in components. */
+
+@import "tailwindcss";
+
+@theme {
+  /* Fonts (loaded with next/font in app/layout.tsx) */
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-display: var(--font-space-grotesk), var(--font-inter), sans-serif;
+
+  /* Brand: one accent only */
+  --color-brand: #0B6E5F;          /* primary buttons, links, active nav */
+  --color-brand-hover: #08544A;
+  --color-brand-soft: #E6F2EF;     /* active nav background, selected task */
+  --color-brand-ink: #0B4F45;      /* text on brand-soft */
+  --color-brand-bright: #5EC7B4;   /* accents on dark panels only */
+
+  /* Neutrals */
+  --color-ink: #14171F;            /* main text */
+  --color-ink-soft: #3D4552;       /* secondary text, nav items */
+  --color-ink-muted: #5B6473;      /* hints, meta, table headers */
+  --color-line: #E3E6EB;           /* card borders, dividers */
+  --color-line-strong: #C9CED6;    /* input and secondary button borders */
+  --color-canvas: #F6F7F9;         /* page background */
+  --color-surface: #FFFFFF;        /* cards, sidebar, header */
+  --color-subtle: #F9FAFB;         /* table header rows */
+  --color-night: #11161F;          /* dark panel, user bubble, role badge */
+
+  /* Status */
+  --color-ok: #1E6B3D;      --color-ok-soft: #E7F5EC;      /* approved, allowed */
+  --color-warn: #7A4B00;    --color-warn-soft: #FFF4E0;    /* draft, awaiting review, no access */
+  --color-warn-line: #F1D9A6;
+  --color-danger: #9B1C1C;  --color-danger-soft: #FDEEEE;  /* blocked, reject */
+  --color-danger-line: #F1C4C4;
+
+  /* Label colours (one per access label) */
+  --color-label-public: #1D4F86;      --color-label-public-soft: #E8F1FB;
+  --color-label-staff: #3D4552;       --color-label-staff-soft: #EEF1F5;
+  --color-label-hr: #6B2A7A;          --color-label-hr-soft: #F6ECF8;
+  --color-label-finance: #7A4B00;     --color-label-finance-soft: #FFF4E0;
+  --color-label-management: #0B4F45;  --color-label-management-soft: #E6F2EF;
+
+  /* Shape */
+  --radius-control: 8px;   /* buttons, inputs, selects */
+  --radius-card: 12px;     /* cards, tables */
+  --radius-panel: 16px;    /* login card */
+}
+
+@layer base {
+  html { background: var(--color-canvas); color: var(--color-ink); }
+  body { font-family: var(--font-sans); font-size: 15px; line-height: 1.5; }
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 600; }
+  :focus-visible { outline: 2px solid var(--color-brand); outline-offset: 2px; }
+}
