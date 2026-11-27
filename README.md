@@ -40,3 +40,15 @@ backend/.venv/Scripts/pre-commit install
 - GitHub Actions (`.github/workflows/ci.yml`) runs every backend and frontend check on each pull request and on `main`.
 
 This repo expects LF line endings. On Windows, run `git config core.autocrlf false` in the repo before checking files out, or Prettier will reject CRLF files.
+
+## Running the stack
+
+Requires Docker Desktop. From the repo root:
+
+```sh
+cp .env.example .env      # then change the passwords
+docker compose up --build
+```
+
+- Web: http://localhost:3000 (the home page shows "API: ok" when the backend is reachable)
+- API: http://localhost:8000/health

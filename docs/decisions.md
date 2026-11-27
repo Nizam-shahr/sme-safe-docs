@@ -17,3 +17,9 @@ Record each design decision: date, decision, why, alternatives considered.
 - **Why:** local hooks use the same tool versions as the project, so there is no second set of versions to keep in sync. Commits stay fast while tests still run before code leaves the machine. Git's CRLF conversion on Windows made Prettier reject every frontend file locally while CI on Linux passed.
 - **Known limits:** backend hook entries use the Windows venv path (`backend\.venv\Scripts\*.exe`); macOS/Linux would need `.venv/bin`. CI does not use pre-commit, so it is unaffected.
 - **Alternatives:** pre-commit's own tool repos (rejected: duplicate pinned versions, and mypy would need the app's dependencies); `.gitattributes` with `eol=lf` or Prettier `endOfLine: auto` (not chosen).
+
+## 2026-11-27: Running stack
+- **Decision:** `uvicorn` serves the FastAPI app. `docker-compose.yml` runs `db` (`pgvector/pgvector:pg16`), `api` and `web`; each waits for the previous one's health check. For now the Postgres superuser is the `POSTGRES_OWNER_USER` from `.env`. The web app reads the API URL from `API_BASE_URL` on the server only, and the home page streams the API status inside `<Suspense>` because Next.js 16 Cache Components requires request-time data to be inside a Suspense boundary.
+- **Why:** uvicorn is the standard ASGI server for FastAPI and the smallest addition (`fastapi[standard]` pulls in much more). Health-gated startup keeps the web app from showing "unavailable" while the API is still booting.
+- **Open for Day 7:** whether `safedocs_owner` should stay the cluster superuser or become a non-superuser owner created by a separate admin role.
+- **Alternatives:** `fastapi run` via `fastapi[standard]` (rejected: extra dependencies); exposing Postgres on a host port (not needed yet).
