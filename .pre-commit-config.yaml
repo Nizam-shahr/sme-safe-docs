@@ -1,0 +1,74 @@
+# Local checks. Install once from the repo root with: backend\.venv\Scripts\pre-commit install
+# Linters run on commit; test suites run on push. CI runs everything.
+# Backend tools are called from backend\.venv\Scripts (Windows venv layout). Windows needs
+# backslashes in a relative program path, and pre-commit splits `entry` like a shell, so each
+# backslash is written twice inside the single-quoted YAML strings below.
+default_install_hook_types: [pre-commit, pre-push]
+default_stages: [pre-commit]
+
+repos:
+  - repo: local
+    hooks:
+      # Backend
+      - id: ruff-check
+        name: ruff check
+        language: unsupported
+        entry: 'backend\\.venv\\Scripts\\ruff.exe check'
+        files: ^backend/.*\.py$
+      - id: ruff-format
+        name: ruff format --check
+        language: unsupported
+        entry: 'backend\\.venv\\Scripts\\ruff.exe format --check'
+        files: ^backend/.*\.py$
+      - id: mypy
+        name: mypy --strict
+        language: unsupported
+        entry: 'backend\\.venv\\Scripts\\mypy.exe --config-file backend/pyproject.toml --strict backend/app'
+        files: ^backend/
+        pass_filenames: false
+      - id: vulture
+        name: vulture
+        language: unsupported
+        entry: 'backend\\.venv\\Scripts\\vulture.exe backend/app --min-confidence 80'
+        files: ^backend/
+        pass_filenames: false
+      - id: bandit
+        name: bandit
+        language: unsupported
+        entry: 'backend\\.venv\\Scripts\\bandit.exe -q -c backend/pyproject.toml -r backend/app'
+        files: ^backend/
+        pass_filenames: false
+      - id: pytest
+        name: pytest (with coverage)
+        language: unsupported
+        entry: 'backend\\.venv\\Scripts\\python.exe -m pytest backend --cov=app --cov-fail-under=80 -q'
+        files: ^backend/
+        pass_filenames: false
+        stages: [pre-push]
+
+      # Frontend
+      - id: eslint
+        name: eslint
+        language: unsupported
+        entry: npm --prefix frontend run lint
+        files: ^frontend/
+        pass_filenames: false
+      - id: prettier
+        name: prettier --check
+        language: unsupported
+        entry: npm --prefix frontend run format:check
+        files: ^frontend/
+        pass_filenames: false
+      - id: tsc
+        name: tsc --noEmit
+        language: unsupported
+        entry: npm --prefix frontend run typecheck
+        files: ^frontend/
+        pass_filenames: false
+      - id: vitest
+        name: vitest
+        language: unsupported
+        entry: npm --prefix frontend test
+        files: ^frontend/
+        pass_filenames: false
+        stages: [pre-push]
